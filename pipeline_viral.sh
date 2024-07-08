@@ -1,8 +1,8 @@
 #!/bin/bash
 
 echo -e "#################################################################################"
-echo -e ===== Iniciando pipeline para análisis de genomas virales =====
-echo -e ===== Inicio del pipeine: $(date) =====
+echo -e         ===== Iniciando pipeline para análisis de genomas virales =====
+echo -e                      ===== Inicio del pipeine: $(date) =====
 echo -e "#################################################################################"
 
 # ---------------------------------------------------------------------------------------------------------
@@ -23,19 +23,25 @@ bash metaSPAdes_viral.sh
 
 bash Estadisticos_ensamble_virus.sh
 
-# -----------------------------------------------------------------------------------------------------------------------------------------------
-# Scripts para realizar la identificación taxonómica de genero y especie, así como el MLST y formula antigénica de aisados de Salmonella y E.coli
-# -----------------------------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------
+# Scripts para realizar la identificación taxonómica de genero y especie
+# ----------------------------------------------------------------------
 
 bash kmerfinder_viral.sh
 
 #bash kraken2_viral.sh
 
+# -----------------------------------------------------------------------------------
+# Script para identificar los contigs que contienen los genes de influenza con BLASTn
+# -----------------------------------------------------------------------------------
+
+bash BLAST_virus.sh
+
 # -----------------------------------
 # Script para separar contigs virales 
 # -----------------------------------
 
-bash  virsorter2.sh
+#bash  virsorter2.sh
 
 # ---------------------------------------------------------
 # Mover todos los archivos de resultados a una sola carpeta
