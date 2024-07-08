@@ -21,7 +21,7 @@ for ensamble in *.fa; do
 # Ejecutar BLASTn sobre los ensambles para identificar los contigs de influenza y sus antigenos H y N
 # ---------------------------------------------------------------------------------------------------
 
-blastn -query ${ensamble} -db $BLASTN_DB_PATH/virus_db -outfmt "6 qseqid salltitles sstrand" -max_target_seqs 1 -perc_identity 90 -evalue 1e-10 -out /home/secuenciacion_cenasa/Analisis_corridas/SPAdes_viral/BLASTn_results/${ID}_results.tsv
+blastn -query ${ensamble} -db $BLASTN_DB_PATH/virus_db -outfmt "6 qseqid salltitles sstrand" -max_target_seqs 1 -perc_identity 92 -evalue 1e-10 -out /home/secuenciacion_cenasa/Analisis_corridas/SPAdes_viral/BLASTn_results/${ID}_results.tsv
 
 #Para conocer el % de identidad: -outfmt "6 pident"
 #ID de secuencia de consulta: -outfmt "6 qseqid"
@@ -40,9 +40,9 @@ cat ./BLASTn_results/${ID}_gen2.txt | tr "( )" " | " > ./BLASTn_results/${ID}_ge
 paste ./BLASTn_results/${ID}_nodos.txt ./BLASTn_results/${ID}_sentido.txt ./BLASTn_results/${ID}_gen3.txt > ./BLASTn_results/${ID}_BLASTn_results_tmp.tsv
 cat ./BLASTn_results/${ID}_BLASTn_results_tmp.tsv | uniq > ./BLASTn_results/${ID}_BLASTn_results.tsv
 
-# ----------------------------
-# Remover archivos resultantes
-# ----------------------------
+# -------------------------
+# Remover archivos sin uso
+# -------------------------
 
 rm ./BLASTn_results/${ID}_results.tsv
 rm ./BLASTn_results/${ID}_results_2.tsv
@@ -51,7 +51,47 @@ rm ./BLASTn_results/*tmp*
 
 done
 
+# ------------------------------------------------
+# Filtrar los contigs que hicieron match con BLAST
+# ------------------------------------------------
 
+for blast in /home/secuenciacion_cenasa/Analisis_corridas/SPAdes_viral/BLASTn_results/*tsv; do
+    ID_blast="$(basename ${blast} | cut -d '_' -f '1')"
+
+for assembly in /home/secuenciacion_cenasa/Analisis_corridas/SPAdes_viral/*fa; do
+    ID_assembly="$(basename ${assembly} | cut -d '-' -f '1')"
+    name_assembly="$(basename ${assembly} | cut -d '-' -f '1,2')"
+
+# ------------------------------------------------------------------------------------
+# Control si el ID del ensamble y de los resultados obtenidos por BLAST son los mismos
+# ------------------------------------------------------------------------------------
+
+echo -e "Nombres Control:\t Ensamble: ${ID_assembly} \tBLAST: ${ID_blast}"
+
+if [[ ${ID_assembly} != ${ID_blast} ]]; then 
+   continue
+   else
+echo -e "Else Control:\t Ensamble: ${ID_assembly} \tRead: ${ID_blast}"
+
+grep -oP 'NODE_\d+_length_\d+_cov_\d+\.\d+' ${blast} > ./BLASTn_results/${name_assembly}_contigs_list.txt
+
+# --------------------------------------------
+# Filtrar los contigs con la herramienta seqtk
+# --------------------------------------------
+
+seqtk subseq ${assembly} ./BLASTn_results/${name_assembly}_contigs_list.txt > /home/secuenciacion_cenasa/Analisis_corridas/SPAdes_viral/Contigs_filtrados/${name_assembly}_viral_tmp.fasta
+cat ./Contigs_filtrados/${name_assembly}_viral_tmp.fasta | uniq > ./Contigs_filtrados/${name_assembly}_viral.fasta
+
+      fi
+  done
+done
+
+# ------------------------
+# Remover archivos sin uso
+# ------------------------
+
+rm ./BLASTn_results/*.txt*
+rm /home/secuenciacion_cenasa/Analisis_corridas/SPAdes_viral/Contigs_filtrados/*tmp*
 
 echo -e "###############################"
 echo -e     ===== Fin: $(date) =====
