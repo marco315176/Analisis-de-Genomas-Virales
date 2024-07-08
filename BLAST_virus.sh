@@ -21,7 +21,7 @@ for ensamble in *.fa; do
 # Ejecutar BLASTn sobre los ensambles para identificar los contigs de influenza y sus antigenos H y N
 # ---------------------------------------------------------------------------------------------------
 
-blastn -query ${ensamble} -db $BLASTN_DB_PATH/virus_db -outfmt "6 qseqid salltitles sstrand" -max_target_seqs 1 -perc_identity 92 -evalue 1e-10 -out /home/secuenciacion_cenasa/Analisis_corridas/SPAdes_viral/BLASTn_results/${ID}_results.tsv
+blastn -query ${ensamble} -db $BLASTN_DB_PATH/virus_db -outfmt "6 qseqid salltitles sstrand" -max_target_seqs 1 -perc_identity 90 -evalue 1e-10 -out /home/secuenciacion_cenasa/Analisis_corridas/SPAdes_viral/BLASTn_results/${ID}_results.tsv
 
 #Para conocer el % de identidad: -outfmt "6 pident"
 #ID de secuencia de consulta: -outfmt "6 qseqid"
