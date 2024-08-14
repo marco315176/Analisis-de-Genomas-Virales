@@ -1,18 +1,19 @@
 #!/bin/bash
 
-echo -e "#############################################################"
+echo -e "#############################################################" "\n"
 
-echo -e ======= Ensamble de genomas virales con metaSPAdes =======
+echo -e ======= Ensamble de genomas virales con metaSPAdes ======= "\n"
 
-echo -e                 ===== Inicio: $(date) =====
+echo -e                 ===== Inicio: $(date) ===== "\n"
 
-echo -e "##############################################################"
+echo -e "##############################################################" "\n"
 
 # -------------------------------------------------------------------
 # Cámbio de directorio a donde se encuentran las lecturas postrimming
 # -------------------------------------------------------------------
 
-cd /home/secuenciacion_cenasa/Analisis_corridas/Archivos_postrim/Virus
+cd /home/secuenciacion_cenasa/Analisis_corridas/Archivos_postrim/Virus/bowtie_filter/
+#/home/secuenciacion_cenasa/Analisis_corridas/Archivos_postrim/Virus
 
 for R1 in *_R1_* ; do
     R2=${R1/_R1_/_R2_}
@@ -38,7 +39,7 @@ rm -R /home/secuenciacion_cenasa/Analisis_corridas/SPAdes_viral/${ID}_metaSPAdes
 # Ejecuta seqtk sobre "${ID}-metaSPAdes-assembly.fasta" para eliminar todos los contigs menores a 450 pb y nombra el archivo de salida como "${ID}-metaSPAdes-assembly.fa"
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-seqtk seq -L 300 /home/secuenciacion_cenasa/Analisis_corridas/SPAdes_viral/${ID}-metaSPAdes-assembly.fasta > /home/secuenciacion_cenasa/Analisis_corridas/SPAdes_viral/${ID}-metaSPAdes-assembly.fa
+seqtk seq -L 100 /home/secuenciacion_cenasa/Analisis_corridas/SPAdes_viral/${ID}-metaSPAdes-assembly.fasta > /home/secuenciacion_cenasa/Analisis_corridas/SPAdes_viral/${ID}-metaSPAdes-assembly.fa
 
 chmod -R 775 /home/secuenciacion_cenasa/Analisis_corridas/SPAdes_viral/${ID}-metaSPAdes-assembly.fa
 

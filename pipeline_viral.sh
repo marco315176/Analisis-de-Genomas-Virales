@@ -1,15 +1,21 @@
 #!/bin/bash
 
-echo -e "#################################################################################"
-echo -e         ===== Iniciando pipeline para análisis de genomas virales =====
-echo -e                      ===== Inicio del pipeine: $(date) =====
-echo -e "#################################################################################"
+echo -e "#################################################################################" "\n"
+echo -e         ===== Iniciando pipeline para análisis de genomas virales ===== "\n"
+echo -e                      ===== Inicio del pipeine: $(date) ===== "\n"
+echo -e "#################################################################################" "\n"
 
 # ---------------------------------------------------------------------------------------------------------
 # Script para obtener estadisticos de lecturas crudas, reaizar trimming y obtener estadisticos pos-trimming
 # ---------------------------------------------------------------------------------------------------------
 
 bash estadisticas_lecturas_virus.sh
+
+# --------------------------------------------------------
+# Script para filtrar las secuencias virales de la muestra
+# --------------------------------------------------------
+
+bash bowtie2_viral.sh
 
 # ---------------------------------------------------------------
 # Script para reaizar el ensamble con SPAdes con la opción --meta
@@ -27,21 +33,15 @@ bash Estadisticos_ensamble_virus.sh
 # Scripts para realizar la identificación taxonómica de genero y especie
 # ----------------------------------------------------------------------
 
+bash kraken2_viral.sh
+
 bash kmerfinder_viral.sh
 
-#bash kraken2_viral.sh
+# -------------------------------------------------------
+# Script para identificar los contigs de virus con BLASTn
+# -------------------------------------------------------
 
-# -----------------------------------------------------------------------------------
-# Script para identificar los contigs que contienen los genes de influenza con BLASTn
-# -----------------------------------------------------------------------------------
-
-bash BLAST_virus.sh
-
-# -----------------------------------
-# Script para separar contigs virales 
-# -----------------------------------
-
-#bash  virsorter2.sh
+#bash BLAST_virus.sh
 
 # ---------------------------------------------------------
 # Mover todos los archivos de resultados a una sola carpeta
@@ -49,7 +49,7 @@ bash BLAST_virus.sh
 
 bash results_virus.sh
 
-echo -e "#########################################"
-echo -e ===== Fin del pipeline: $(date) =====
-echo -e "#########################################"
+echo -e "######################################################################################"
+echo -e ===== Pipeline de análisis de genomas virales completado: $(date) =====
+echo -e "######################################################################################"
 
