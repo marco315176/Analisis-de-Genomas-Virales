@@ -9,7 +9,7 @@ echo -e                              ===== Inicio: $(date) ===== "\n"
 echo -e "###################################################################################################" "\n"
 
 
-cd /home/secuenciacion_cenasa/Analisis_corridas/Archivos_postrim/Virus
+cd /home/admcenasa/Analisis_corridas/Archivos_postrim/virus
 
 for R1 in *_R1_*; do
     R2=${R1/_R1_/_R2_}
@@ -19,19 +19,19 @@ for R1 in *_R1_*; do
 # Ejecutar kraken2 sobre las lecturas postrim
 # -------------------------------------------
 
-kraken2 --paired ${R1} ${R2} --gzip-compressed --db $KRAKEN2_DB_PATH --use-names --threads 6 --report /home/secuenciacion_cenasa/Analisis_corridas/kraken2/virus/${ID}_kraken2_temp.txt --memory-mapping
+kraken2 --paired ${R1} ${R2} --gzip-compressed --db $K2_DB_PATH --use-names --threads 25 --report /home/admcenasa/Analisis_corridas/kraken2/virus/${ID}_kraken2_temp.txt
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Filtra los resultados si en la columna 4 del reporte .txt tiene caracteres G o S (genero o especie) y la columna 3 (fragmentos asignados al taxón) tiene un valor mayor a 1
 # ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-awk '$4 ~ "[GS]" && $3 >= 1' /home/secuenciacion_cenasa/Analisis_corridas/kraken2/virus/${ID}_kraken2_temp.txt > /home/secuenciacion_cenasa/Analisis_corridas/kraken2/virus/${ID}_kraken_species.txt
+awk '$4 ~ "[GS]" && $3 >= 1' /home/admcenasa/Analisis_corridas/kraken2/virus/${ID}_kraken2_temp.txt > /home/admcenasa/Analisis_corridas/kraken2/virus/${ID}_kraken_species.txt
 
 # -----------------------------------------
 # Añadir títulos de columna al reporte .txt
 # -----------------------------------------
 
-sed -i '1i coverage%\tcoverage#\tasigned\trank_especie\tNCBItaxonomicID\ttaxonomic_name' /home/secuenciacion_cenasa/Analisis_corridas/kraken2/virus/${ID}_kraken_species.txt
+sed -i '1i coverage%\tcoverage#\tasigned\trank_especie\tNCBItaxonomicID\ttaxonomic_name' /home/admcenasa/Analisis_corridas/kraken2/virus/${ID}_kraken_species.txt
 
 done
 
@@ -39,7 +39,7 @@ done
 # Realizar gráficos interactivos con Krona
 # ---------------------------------------- 
 
-cd /home/secuenciacion_cenasa/Analisis_corridas/kraken2/virus
+cd /home/admcenasa/Analisis_corridas/kraken2/virus
 
 for kraken in *kraken2_temp*; do
     ID=$(basename ${kraken} | cut -d '_' -f '1')
@@ -48,7 +48,7 @@ ktImportTaxonomy -m 3 -t 5 ${kraken}  -o ./${ID}_kraken2_krona.html
 
 done
 
-rm /home/secuenciacion_cenasa/Analisis_corridas/kraken2/virus/*kraken2_temp.txt
+rm /home/admcenasa/Analisis_corridas/kraken2/virus/*kraken2_temp.txt
 
 echo -e "###############################################################" "\n"
 echo -e                  ===== Fin: $(date)  =====   "\n"

@@ -8,7 +8,7 @@ echo -e =========== Inicio: $(date) =========== "\n"
 
 echo -e "#########################################################################" "\n"
 
-cd /home/secuenciacion_cenasa/Analisis_corridas/SPAdes_viral
+cd /home/admcenasa/Analisis_corridas/SPAdes/virus
 
 for ensamble in *fa; do
     ID="$(basename ${ensamble} | cut -d '-' -f '1')"
@@ -25,7 +25,7 @@ bwa index -p $(basename ${ensamble_name} .fa) ${ensamble}
 # Declarar cuales son tus archivos de lecturas
 # ---------------------------------------------
 
-for R1 in /home/secuenciacion_cenasa/Analisis_corridas/Archivos_postrim/Virus/bowtie_filter/*_R1_*; do
+for R1 in /home/admcenasa/Analisis_corridas/Archivos_postrim/virus/bowtie_filter/*_R1_*; do
 name_R1="$(basename ${R1} | cut -d '_' -f '1')"
 R2="${R1/_R1_/_R2_}"
 name_R2="$(basename ${R2} | cut -d '_' -f '1')"
@@ -151,7 +151,7 @@ done >> ./estadisticos/Estadisticos_totales.tsv
 # Obtener archivo global de estadisticas (lecturas y ensamble)
 # ------------------------------------------------------------
 
-paste /home/secuenciacion_cenasa/Analisis_corridas/Resultados_fastQC/Virus/estadisticos/lecturas_stats.tsv /home/secuenciacion_cenasa/Analisis_corridas/Resultados_fastqc_ptrim/Virus/estadisticos/lecturas_stats_pt.tsv ./estadisticos/Estadisticos_totales.tsv | awk '{print $1"\t"$2"\t"$3"\t"$4"\t"$5"\t"$6"\t"$7"\t"$8"\t"$9"\t"$11"\t"$12"\t"$13"\t"$14"\t"$15"\t"$16"\t"$17"\t"$18"\t"$20"\t"$21"\t"$22"\t"$23"\t"$24"\t"$25"\t"$26"\t"$27"\t"$28}' > ./estadisticos/Estadistico_global.tsv
+paste /home/admcenasa/Analisis_corridas/fastQC/virus/estadisticos/lecturas_stats.tsv /home/admcenasa/Analisis_corridas/fastQC_ptrim/virus/estadisticos/lecturas_stats_pt.tsv ./estadisticos/Estadisticos_totales.tsv | awk '{print $1"\t"$2"\t"$3"\t"$4"\t"$5"\t"$6"\t"$7"\t"$8"\t"$9"\t"$11"\t"$12"\t"$13"\t"$14"\t"$15"\t"$16"\t"$17"\t"$18"\t"$20"\t"$21"\t"$22"\t"$23"\t"$24"\t"$25"\t"$26"\t"$27"\t"$28}' > ./estadisticos/Estadistico_global.tsv
 
 rm ./estadisticos/Estadisticos_totales.tsv
 rm ./*coverage*

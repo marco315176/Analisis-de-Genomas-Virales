@@ -9,16 +9,16 @@ echo -e                              ===== Inicio: $(date) ===== "\n"
 
 echo -e "###############################################################################################" "\n"
 
-cd /home/secuenciacion_cenasa/Analisis_corridas/Corrida_virus
+cd /home/admcenasa/Analisis_corridas/Corrida_virus
 
 # ------------------------------------------------------------------------
 # Ejecuta fastQC sobre las lecturas en el directorio que terminen con .gz
 # ------------------------------------------------------------------------
 
-fastqc *.gz --extract -o /home/secuenciacion_cenasa/Analisis_corridas/Resultados_fastQC/Virus
+fastqc *.gz --extract -o /home/admcenasa/Analisis_corridas/fastQC/virus
 
 
-cd /home/secuenciacion_cenasa/Analisis_corridas/Resultados_fastQC/Virus 
+cd /home/admcenasa/Analisis_corridas/fastQC/virus
 
 # -------------------------------------------------------------------------------------------------
 # Ejecuta multiqc sobre los reportes .HTML generados por fastQC para generar un reporte en conjunto
@@ -29,17 +29,16 @@ multiqc . -o ./multiqc
 mv ./multiqc/multiqc_report.html ./multiqc/pretrimm_multiqc_report.html
 
 
-cd /home/secuenciacion_cenasa/Analisis_corridas/Corrida_virus
+cd /home/admcenasa/Analisis_corridas/Corrida_virus
 
 # ---------------------------------------------------------------------------------------------------
 # Ejecuta Trim_Galore para realizar el proceso de trimming sobre lecturas y ejecuta fastqc postrimming
 # ---------------------------------------------------------------------------------------------------
 
-trim_galore --quality 30 --length 40 --paired  *.gz --fastqc_args "--extract --outdir /home/secuenciacion_cenasa/Analisis_corridas/Resultados_fastqc_ptrim/Virus" --output_dir /home/secuenciacion_cenasa/Analisis_corridas/Archivos_postrim/Virus 
+trim_galore --quality 30 --length 40 --paired  -j 15 *.gz --fastqc_args "--extract --outdir /home/admcenasa/Analisis_corridas/fastQC_ptrim/virus" --output_dir /home/admcenasa/Analisis_corridas/Archivos_postrim/virus
 
 
-
-cd /home/secuenciacion_cenasa/Analisis_corridas/Archivos_postrim/Virus
+cd /home/admcenasa/Analisis_corridas/Archivos_postrim/virus
 
 mkdir -p reports_txt
 
@@ -62,7 +61,7 @@ mv ${R2}  ${nameR2}_R2_trim.fastq.gz
 done #Termino del loop iniciado con "for"
 
 
-cd /home/secuenciacion_cenasa/Analisis_corridas/Resultados_fastqc_ptrim/Virus
+cd /home/admcenasa/Analisis_corridas/fastQC_ptrim/virus
 
 # ------------------------------------------------------------------------------------------------------------------------------
 # Ejecutar multiQC sobre los reportes .HTML generados por fastQC para generar un reporte en conjunto de los reportes postrimming
@@ -76,7 +75,7 @@ mv ./multiqc/multiqc_report.html ./multiqc/postrimm_multiqc_report.html
 # Conjuntar estadisticos de lecturas crudas en un solo archivo
 # ------------------------------------------------------------
 
-cd /home/secuenciacion_cenasa/Analisis_corridas/Resultados_fastQC/Virus
+cd /home/admcenasa/Analisis_corridas/fastQC/virus
 
 echo -e "ID,seq,longitud,%GC,PromQ" > ./estadisticos/lecturas.csv
 
@@ -104,7 +103,7 @@ rm ./estadisticos/lecturas.csv
 # Conjuntar estadisticos de lecturas postrimming en un solo archivo
 # -----------------------------------------------------------------
 
-cd /home/secuenciacion_cenasa/Analisis_corridas/Resultados_fastqc_ptrim/Virus
+cd home/admcenasa/Analisis_corridas/fastQC_ptrim/virus
 
 echo -e "ID,seq,long,%GC,PromQ" > ./estadisticos/lecturas_pt.csv
 
