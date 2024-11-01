@@ -8,7 +8,7 @@ mkdir -p /home/admcenasa/Analisis_corridas/Resultados_all_virus/Anotacion
 # Correr exonerate para anotar genomas de rabia
 # ---------------------------------------------
 
-for assembly in /home/admcenasa/Analisis_corridas/SPAdes/virus/*.fa; do
+for assembly in /home/admcenasa/Analisis_corridas/Resultados_all_virus/Ensambles/Rabies_virus/*.fa; do
     ID=$(basename ${assembly} | cut -d '-' -f '1')
     ename=$(basename ${assembly} | cut -d '.' -f '1')
 
