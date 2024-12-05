@@ -35,7 +35,7 @@ cd /home/admcenasa/Analisis_corridas/Corrida_virus
 # Ejecuta Trim_Galore para realizar el proceso de trimming sobre lecturas y ejecuta fastqc postrimming
 # ---------------------------------------------------------------------------------------------------
 
-trim_galore --quality 30 --length 40 --paired  -j 15 *.gz --fastqc_args "--extract --outdir /home/admcenasa/Analisis_corridas/fastQC_ptrim/virus" --output_dir /home/admcenasa/Analisis_corridas/Archivos_postrim/virus
+trim_galore --quality 30 --length 40 --paired  -j 7 *.gz --fastqc_args "--extract --outdir /home/admcenasa/Analisis_corridas/fastQC_ptrim/virus" --output_dir /home/admcenasa/Analisis_corridas/Archivos_postrim/virus
 
 
 cd /home/admcenasa/Analisis_corridas/Archivos_postrim/virus
@@ -103,7 +103,7 @@ rm ./estadisticos/lecturas.csv
 # Conjuntar estadisticos de lecturas postrimming en un solo archivo
 # -----------------------------------------------------------------
 
-cd home/admcenasa/Analisis_corridas/fastQC_ptrim/virus
+cd /home/admcenasa/Analisis_corridas/fastQC_ptrim/virus
 
 echo -e "ID,seq,long,%GC,PromQ" > ./estadisticos/lecturas_pt.csv
 

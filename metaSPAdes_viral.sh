@@ -22,9 +22,9 @@ for R1 in *_R1_* ; do
 # Ejecuta SPAdes con función de metagenómica sobre mis lecturas R1 y R2 y genera el archivo de salida ${ID}_metaSPAdes
 # --------------------------------------------------------------------------------------------------------------------
 
-spades.py --meta -1 ${R1} \
-                 -2 ${R2} \
-          -t 20 -o /home/admcenasa/Analisis_corridas/SPAdes/virus/${ID}_metaSPAdes
+spades.py  --meta -1 ${R1} \
+                  -2 ${R2} \
+          -t 25 -o /home/admcenasa/Analisis_corridas/SPAdes/virus/${ID}_metaSPAdes
 
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------
 # Cámbio de nombre del archivo "contigs.fasta" a "${ID}-metaSPAdes-assembly.fasta" y elimina el directorio "${ID}_metaSPAdes" con los archivos no necesarios
@@ -38,7 +38,7 @@ rm -R /home/admcenasa/Analisis_corridas/SPAdes/virus/${ID}_metaSPAdes
 # Ejecuta seqtk sobre "${ID}-metaSPAdes-assembly.fasta" para eliminar todos los contigs menores a 450 pb y nombra el archivo de salida como "${ID}-metaSPAdes-assembly.fa"
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-seqtk seq -L 900 /home/admcenasa/Analisis_corridas/SPAdes/virus/${ID}-metaSPAdes-assembly.fasta > /home/admcenasa/Analisis_corridas/SPAdes/virus/${ID}-metaSPAdes-assembly.fa
+seqtk seq -L 100 /home/admcenasa/Analisis_corridas/SPAdes/virus/${ID}-metaSPAdes-assembly.fasta > /home/admcenasa/Analisis_corridas/SPAdes/virus/${ID}-metaSPAdes-assembly.fa
 
 chmod -R 775 /home/admcenasa/Analisis_corridas/SPAdes/virus/${ID}-metaSPAdes-assembly.fa
 

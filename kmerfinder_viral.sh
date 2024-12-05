@@ -34,31 +34,6 @@ rm -R /home/admcenasa/Analisis_corridas/kmerfinder/virus/KF_${ID}
 done
 
 # ------------------------------------------------------------------------------------
-# Mover los ensambles a una carpeta nombrada con el genero del organismo identificado
-# ------------------------------------------------------------------------------------
-
-cd /home/admcenasa/Analisis_corridas/kmerfinder/virus
-
-for file in *spa; do
-    genero=$(cat ${file} | sed -n '2p' | cut -d ' ' -f '2,3,4' | cut -d ',' -f '1'| tr ' ' '_')
-    ID=$(basename ${file} | cut -d '_' -f '1')
-
-for assembly in /home/admcenasa/Analisis_corridas/SPAdes/virus/*.fa; do
-    assembly_ID=$(basename ${assembly} | cut -d '-' -f '1')
-
-if [[ ${ID} != ${assembly_ID} ]]; then
-       continue
- else
-mkdir -p /home/admcenasa/Analisis_corridas/Resultados_all_virus/Ensambles/${genero}
-
-echo -e "Moviendo ${assembly} a ${genero}"
-     cp ${assembly} /home/admcenasa/Analisis_corridas/Resultados_all_virus/Ensambles/${genero}
-
-       fi
-    done
-done
-
-# ------------------------------------------------------------------------------------
 # Mover los archivos trimmiados a una carpeta nombrada con el genero del organismo identificado
 # ------------------------------------------------------------------------------------
 
@@ -93,7 +68,7 @@ cd /home/admcenasa/Analisis_corridas/kmerfinder/virus
 
 for file in *.spa; do
     ename="$(basename ${file} | cut -d '_' -f '1')"
-    echo -e "\n ##########\t${ename}\t########## \n$(cat ${file})"
+    echo -e "\n ########## ${ename} ########## \n$(cat ${file})"
 
 done >> ./kmerfinder_results_all.tsv
 

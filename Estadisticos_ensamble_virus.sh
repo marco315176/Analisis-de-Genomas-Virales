@@ -25,6 +25,12 @@ bwa index -p $(basename ${ensamble_name} .fa) ${ensamble}
 # Declarar cuales son tus archivos de lecturas
 # ---------------------------------------------
 
+#for R1 in /home/admcenasa/Analisis_corridas/Archivos_postrim/virus/*_R1_*; do
+#name_R1="$(basename ${R1} | cut -d '_' -f '1')"
+#R2="${R1/_R1_/_R2_}"
+#name_R2="$(basename ${R2} | cut -d '_' -f '1')"
+
+#Lecturas filtradas
 for R1 in /home/admcenasa/Analisis_corridas/Archivos_postrim/virus/bowtie_filter/*_R1_*; do
 name_R1="$(basename ${R1} | cut -d '_' -f '1')"
 R2="${R1/_R1_/_R2_}"

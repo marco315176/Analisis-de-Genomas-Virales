@@ -1,10 +1,10 @@
 #!/bin/bash
 
-echo -e "#####################################################################" "\n"
+echo -e "#############################################################################################################" "\n"
 
-echo -e Moviendo todos los archivos de resultados obtenidos a una sola carpeta "\n"
+echo -e Moviendo todos los archivos de resultados obtenidos a: /home/admcenasa/Analisis_corridas/Resultados_all_virus "\n"
 
-echo -e "#####################################################################" "\n"
+echo -e "#############################################################################################################" "\n"
 
 cd /home/admcenasa/Analisis_corridas/Resultados_all_virus
 
@@ -25,11 +25,13 @@ mkdir -p Archivos_trimming
 #Mover los archivos limpios (trimming) a la carpeta Archivos_trimming
 mv /home/admcenasa/Analisis_corridas/Archivos_postrim/virus/*_trim* ./Archivos_trimming
 
-#mkdir -p Ensambles
+#mkdir -p Ensambles/
+#mv /home/admcenasa/Analisis_corridas/SPAdes/virus/BLAST_assembly/*.fa ./Ensambles
+
 mkdir -p BLASTn_results/
 #Mover todos los resultados de blast a la carpeta Ensambles/BLASTn_results
-#mv /home/secuenciacion_cenasa/Analisis_corridas/SPAdes_viral/*SPAdes* ./Ensambles
-mv /home/admcenasa/Analisis_corridas/SPAdes/virus/BLASTn_results/*BLASTn_results* ./BLASTn_results
+mv /home/admcenasa/Analisis_corridas/SPAdes/virus/BLAST_assembly/*tsv ./BLASTn_results
+mv /home/admcenasa/Analisis_corridas/SPAdes/virus/BLASTn_results/*tsv ./BLASTn_results
 rm /home/admcenasa/Analisis_corridas/SPAdes/virus/*.fa
 
 mkdir -p KRAKEN2
@@ -49,3 +51,6 @@ mkdir -p Estadisticos
 mv /home/admcenasa/Analisis_corridas/fastQC/virus/estadisticos/*stats* ./Estadisticos
 mv /home/admcenasa/Analisis_corridas/fastQC_ptrim/virus/estadisticos/*stats_pt* ./Estadisticos
 mv /home/admcenasa/Analisis_corridas/SPAdes/virus/estadisticos/*global* ./Estadisticos 
+
+mkdir -p Lecturas_crudas
+mv /home/admcenasa/Analisis_corridas/Corrida_virus/*fastq.gz ./Lecturas_crudas
