@@ -20,10 +20,14 @@ cd /home/admcenasa/Analisis_corridas/Archivos_postrim/virus
 for r1 in *_R1_*; do
     r2=${r1/_R1_/_R2_}
     ID=$(basename ${r1} | cut -d '_' -f '1')
-echo -e " ########## ${ID} ##########"
+echo -e "\n" "########## ${ID} ##########" "\n"
 
-bowtie2 --local  -p 15 --ignore-quals --very-sensitive-local --reorder --al-conc-gz /home/admcenasa/Analisis_corridas/Archivos_postrim/virus/bowtie_filter/${ID}_trim_bt.fastq.gz -x $BT2_DB_PATH/bt2_db_virus -1 ${r1} -2 ${r2}  -S /home/admcenasa/Analisis_corridas/Archivos_postrim/virus/bowtie_filter/${ID}_align.sam
+bowtie2 --local  -p 15 --ignore-quals --very-sensitive-local --reorder \
+        --al-conc-gz /home/admcenasa/Analisis_corridas/Archivos_postrim/virus/bowtie_filter/${ID}_trim_bt.fastq.gz \
+        -x $BT2_virus_DB_PATH/bt2_db_virus -1 ${r1} -2 ${r2}  \
+        -S /home/admcenasa/Analisis_corridas/Archivos_postrim/virus/bowtie_filter/${ID}_align.sam
 #Para lecturas no alineadas: --un-conc-gz /home/secuenciacion_cenasa/Programas_Bioinformaticos/bowtie2-2.5.3-linux-x86_64/${ID}_notalig.fastq.gz
+#--al-conc-gz /home/admcenasa/Analisis_corridas/Archivos_postrim/virus/bowtie_filter/${ID}_trim_bt.fastq.gz \
 
 # ----------------------------------------
 # Renombrar los archivos de salida R1 y R2

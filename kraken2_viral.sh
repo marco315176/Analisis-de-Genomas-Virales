@@ -23,11 +23,12 @@ echo -e "########## ${ID} ##########"
 
 kraken2 --paired ${R1} ${R2} --gzip-compressed --db $K2_DB_PATH --use-names --threads 25 --report /home/admcenasa/Analisis_corridas/kraken2/virus/${ID}_kraken2_temp.txt
 
-# ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# Filtra los resultados si en la columna 4 del reporte .txt tiene caracteres G o S (genero o especie) y la columna 3 (fragmentos asignados al taxón) tiene un valor mayor a 1
-# ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------
+# Filtra los resultados si en la columna 4 del reporte .txt tiene caracteres S (especie)
+# --------------------------------------------------------------------------------------
 
-awk '$4 ~ "[DGS]" && $1 >= 0.1' /home/admcenasa/Analisis_corridas/kraken2/virus/${ID}_kraken2_temp.txt > /home/admcenasa/Analisis_corridas/kraken2/virus/${ID}_kraken_species.txt
+awk '$4 ~ "[S]"' /home/admcenasa/Analisis_corridas/kraken2/virus/${ID}_kraken2_temp.txt > /home/admcenasa/Analisis_corridas/kraken2/virus/${ID}_kraken_species.txt
+#awk '$4 ~ "[S]" && $1 >= 0.1'
 
 # -----------------------------------------
 # Añadir títulos de columna al reporte .txt

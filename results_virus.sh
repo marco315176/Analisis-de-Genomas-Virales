@@ -31,7 +31,6 @@ mv /home/admcenasa/Analisis_corridas/Archivos_postrim/virus/*_trim* ./Archivos_t
 mkdir -p BLASTn_results/
 #Mover todos los resultados de blast a la carpeta Ensambles/BLASTn_results
 mv /home/admcenasa/Analisis_corridas/SPAdes/virus/BLAST_assembly/*tsv ./BLASTn_results
-mv /home/admcenasa/Analisis_corridas/SPAdes/virus/BLASTn_results/*tsv ./BLASTn_results
 rm /home/admcenasa/Analisis_corridas/SPAdes/virus/*.fa
 
 mkdir -p KRAKEN2
@@ -41,10 +40,6 @@ mv /home/admcenasa/Analisis_corridas/kraken2/virus/*kraken* ./KRAKEN2
 mkdir -p KmerFinder
 #Mover los archivos obtenidos por KmerFinder a la carpeta KmerFinder
 mv /home/admcenasa/Analisis_corridas/kmerfinder/virus/*results* ./KmerFinder
-
-#mkdir -p Resultados_BLAST
-#Mover los resultados obtenidos por BLASTn a la carpeta Resultados_BLAST
-#mv /home/secuenciacion_cenasa/Analisis_corridas/SPAdes_viral/BLASTn_results/*tsv ./Resultados_BLAST
 
 mkdir -p Estadisticos
 #Mover archivos con estadisticos
