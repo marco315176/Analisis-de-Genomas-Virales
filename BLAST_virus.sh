@@ -21,11 +21,13 @@ for ensamble in *.fa; do
 # Ejecutar BLASTn sobre los ensambles para identificar los contigs de virus
 # -------------------------------------------------------------------------
 
-blastn -query ${ensamble} -db $Bn_DB_PATH/virus_db -outfmt "6 qseqid salltitles sstrand pident qcovs" -max_target_seqs 1 -max_hsps 1 -culling_limit 1 -perc_identity 90 -evalue 1e-10 -out /home/admcenasa/Analisis_corridas/SPAdes/virus/BLASTn_results/${ID}_results.tsv
+blastn -query ${ensamble} -db $Bn_DB_PATH/virus_db -outfmt "6 qseqid salltitles sstrand pident qcovs bitscore evalue" -max_target_seqs 1 -max_hsps 1 -culling_limit 1 -perc_identity 90 -evalue 1e-10 -out /home/admcenasa/Analisis_corridas/SPAdes/virus/BLASTn_results/${ID}_results.tsv
 
 #Para conocer el % de identidad: -outfmt "6 pident"
 #ID de secuencia de consulta: -outfmt "6 qseqid"
 #Sentido de la secuencia: "sstrand"
+#Imprimir e-value:  "evalue"
+#Imprimir el bitscore: "bitscore"
 
 # --------------------------------
 # Modificar los archivos de salida
@@ -37,11 +39,13 @@ cat ./BLASTn_results/${ID}_results_2.tsv | awk '{print $2}' > ./BLASTn_results/$
 cat ./BLASTn_results/${ID}_results_2.tsv | awk '{print $3}' > ./BLASTn_results/${ID}_sentido.txt
 cat ./BLASTn_results/${ID}_results_2.tsv | awk '{print $4}' > ./BLASTn_results/${ID}_ident.txt
 cat ./BLASTn_results/${ID}_results_2.tsv | awk '{print $5}' > ./BLASTn_results/${ID}_cov.txt
+cat ./BLASTn_results/${ID}_results_2.tsv | awk '{print $6}' > ./BLASTn_results/${ID}_bitsc.txt
+cat ./BLASTn_results/${ID}_results_2.tsv | awk '{print $7}' > ./BLASTn_results/${ID}_eval.txt
 cat ./BLASTn_results/${ID}_gen.txt | cut -d ',' -f '1' > ./BLASTn_results/${ID}_gen1.txt
 cat ./BLASTn_results/${ID}_gen1.txt | tr "_" " " > ./BLASTn_results/${ID}_gen2.txt
 cat ./BLASTn_results/${ID}_gen2.txt | tr "( )" " | " > ./BLASTn_results/${ID}_gen3.txt
-paste ./BLASTn_results/${ID}_nodos.txt ./BLASTn_results/${ID}_sentido.txt ./BLASTn_results/${ID}_ident.txt ./BLASTn_results/${ID}_cov.txt ./BLASTn_results/${ID}_gen3.txt > ./BLASTn_results/${ID}_BLASTn_results_tmp.tsv
-sed -i '1i Contig\tSentido\t%Identidad\t%Cobertura\tSec_ref' ./BLASTn_results/${ID}_BLASTn_results_tmp.tsv
+paste ./BLASTn_results/${ID}_nodos.txt ./BLASTn_results/${ID}_sentido.txt ./BLASTn_results/${ID}_ident.txt ./BLASTn_results/${ID}_cov.txt ./BLASTn_results/${ID}_bitsc.txt ./BLASTn_results/${ID}_eval.txt  ./BLASTn_results/${ID}_gen3.txt > ./BLASTn_results/${ID}_BLASTn_results_tmp.tsv
+sed -i '1i Contig\tSentido\t%Identidad\t%Cobertura\tBitscore\te_value\tSec_ref' ./BLASTn_results/${ID}_BLASTn_results_tmp.tsv
 cat ./BLASTn_results/${ID}_BLASTn_results_tmp.tsv | uniq > ./BLASTn_results/${ID}_BLASTn_results.tsv
 
 # -------------------------
@@ -94,7 +98,7 @@ rm /home/admcenasa/Analisis_corridas/SPAdes/virus/BLASTn_results/*_BLASTn_result
 for ens in /home/admcenasa/Analisis_corridas/SPAdes/virus/BLAST_assembly/*fasta; do
     ID=$(basename ${ens} | cut -d '-' -f '1')
 
-blastn -query ${ens} -db $Bn_DB_PATH/virus_db -outfmt "6 qseqid salltitles sstrand pident qcovs" -max_target_seqs 1 -max_hsps 1 -culling_limit 1 -perc_identity 90 -evalue 1e-10 -out /home/admcenasa/Analisis_corridas/SPAdes/virus/BLAST_assembly/${ID}_results.tsv
+blastn -query ${ens} -db $Bn_DB_PATH/virus_db -outfmt "6 qseqid salltitles sstrand pident qcovs bitscore evalue" -max_target_seqs 1 -max_hsps 1 -culling_limit 1 -perc_identity 90 -evalue 1e-10 -out /home/admcenasa/Analisis_corridas/SPAdes/virus/BLAST_assembly/${ID}_results.tsv
 
 # --------------------------------
 # Modificar los archivos de salida
@@ -106,11 +110,13 @@ cat ./BLAST_assembly/${ID}_results_2.tsv | awk '{print $2}' > ./BLAST_assembly/$
 cat ./BLAST_assembly/${ID}_results_2.tsv | awk '{print $3}' > ./BLAST_assembly/${ID}_sentido.txt
 cat ./BLAST_assembly/${ID}_results_2.tsv | awk '{print $4}' > ./BLAST_assembly/${ID}_ident.txt
 cat ./BLAST_assembly/${ID}_results_2.tsv | awk '{print $5}' > ./BLAST_assembly/${ID}_cov.txt
+cat ./BLAST_assembly/${ID}_results_2.tsv | awk '{print $6}' > ./BLAST_assembly/${ID}_bitsc.txt
+cat ./BLAST_assembly/${ID}_results_2.tsv | awk '{print $7}' > ./BLAST_assembly/${ID}_eval.txt
 cat ./BLAST_assembly/${ID}_gen.txt | cut -d ',' -f '1' > ./BLAST_assembly/${ID}_gen1.txt
 cat ./BLAST_assembly/${ID}_gen1.txt | tr "_" " " > ./BLAST_assembly/${ID}_gen2.txt
 cat ./BLAST_assembly/${ID}_gen2.txt | tr "( )" " | " > ./BLAST_assembly/${ID}_gen3.txt
-paste ./BLAST_assembly/${ID}_nodos.txt ./BLAST_assembly/${ID}_sentido.txt ./BLAST_assembly/${ID}_ident.txt ./BLAST_assembly/${ID}_cov.txt ./BLAST_assembly/${ID}_gen3.txt > ./BLAST_assembly/${ID}_BLASTn_results_tmp.tsv
-sed -i '1i Contig\tSentido\t%Identidad\t%Cobertura\tSec_ref' ./BLAST_assembly/${ID}_BLASTn_results_tmp.tsv
+paste ./BLAST_assembly/${ID}_nodos.txt ./BLAST_assembly/${ID}_sentido.txt ./BLAST_assembly/${ID}_ident.txt ./BLAST_assembly/${ID}_cov.txt ./BLAST_assembly/${ID}_bitsc.txt ./BLAST_assembly/${ID}_eval.txt ./BLAST_assembly/${ID}_gen3.txt > ./BLAST_assembly/${ID}_BLASTn_results_tmp.tsv
+sed -i '1i Contig\tSentido\t%Identidad\t%Cobertura\tBitscore\te_value\tSec_ref' ./BLAST_assembly/${ID}_BLASTn_results_tmp.tsv
 cat ./BLAST_assembly/${ID}_BLASTn_results_tmp.tsv | uniq > ./BLAST_assembly/${ID}_BLASTn_results.tsv
 
 # -------------------------
@@ -135,17 +141,6 @@ echo -e "\n########## ${ename} ########## \n$(cat ${file})"
    done >> ./BLAST_assembly/BLASTn_all_rev.tsv
 rm ./BLAST_assembly/*_BLASTn_results.tsv
 
-#---------------------------------------------------------------------------
-# Concatenar los resultados del primer analisis de BLAST en un solo archivo
-#---------------------------------------------------------------------------
-
-#for file in ./BLASTn_results/*BLASTn_results*; do
- #   ename=$(basename ${file} | cut -d '_' -f '1')
-#echo -e "\n########## ${ename} ########## \n$(cat ${file})"
-
- #  done >> ./BLASTn_results/BLASTn_all_results.tsv
-#rm ./BLASTn_results/*_BLASTn_results.tsv
-
 # -----------------------------------------------------------------------------
 # Eliminar contigs pequeños para todos los generos virales menos para influenza
 # -----------------------------------------------------------------------------
@@ -164,7 +159,7 @@ if [[ ${ID} == ${assembly_ID} ]]; then
 if [[ ${genero} != "Influenza_A_virus" ]]; then
 	echo -e "If control: ${genero}"
 
-seqtk seq -L 900 ${assembly} > ${ID}-metaSPAdes-assembly-plus.fa
+seqtk seq -L 50 ${assembly} > ${ID}-metaSPAdes-assembly-plus.fa
 
 	else
 
