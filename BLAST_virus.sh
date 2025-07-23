@@ -13,6 +13,9 @@ echo -e "#######################################################################
 
 cd /home/admcenasa/Analisis_corridas/SPAdes/virus
 
+db="virus_db"
+
+echo -e "db = ${db}"
 
 for ensamble in *.fa; do
     ID="$(basename ${ensamble} | cut -d '-' -f '1')"
@@ -21,7 +24,7 @@ for ensamble in *.fa; do
 # Ejecutar BLASTn sobre los ensambles para identificar los contigs de virus
 # -------------------------------------------------------------------------
 
-blastn -query ${ensamble} -db $Bn_DB_PATH/virus_db -outfmt "6 qseqid salltitles sstrand pident qcovs bitscore evalue" -max_target_seqs 1 -max_hsps 1 -culling_limit 1 -perc_identity 90 -evalue 1e-10 -out /home/admcenasa/Analisis_corridas/SPAdes/virus/BLASTn_results/${ID}_results.tsv
+blastn -query ${ensamble} -db $Bn_DB_PATH/${db} -outfmt "6 qseqid salltitles sstrand pident qcovs bitscore evalue" -max_target_seqs 1 -max_hsps 1 -culling_limit 1 -perc_identity 90 -evalue 1e-10 -out /home/admcenasa/Analisis_corridas/SPAdes/virus/BLASTn_results/${ID}_results.tsv
 
 #Para conocer el % de identidad: -outfmt "6 pident"
 #ID de secuencia de consulta: -outfmt "6 qseqid"
@@ -95,10 +98,13 @@ rm /home/admcenasa/Analisis_corridas/SPAdes/virus/BLASTn_results/*_BLASTn_result
 # ----------------------------------------------
 # Correr BLASTn para confirmar las orientaciones
 # ----------------------------------------------
+
+echo -e "db = ${db}"
+
 for ens in /home/admcenasa/Analisis_corridas/SPAdes/virus/BLAST_assembly/*fasta; do
     ID=$(basename ${ens} | cut -d '-' -f '1')
 
-blastn -query ${ens} -db $Bn_DB_PATH/virus_db -outfmt "6 qseqid salltitles sstrand pident qcovs bitscore evalue" -max_target_seqs 1 -max_hsps 1 -culling_limit 1 -perc_identity 90 -evalue 1e-10 -out /home/admcenasa/Analisis_corridas/SPAdes/virus/BLAST_assembly/${ID}_results.tsv
+blastn -query ${ens} -db $Bn_DB_PATH/${db} -outfmt "6 qseqid salltitles sstrand pident qcovs bitscore evalue" -max_target_seqs 1 -max_hsps 1 -culling_limit 1 -perc_identity 90 -evalue 1e-10 -out /home/admcenasa/Analisis_corridas/SPAdes/virus/BLAST_assembly/${ID}_results.tsv
 
 # --------------------------------
 # Modificar los archivos de salida
