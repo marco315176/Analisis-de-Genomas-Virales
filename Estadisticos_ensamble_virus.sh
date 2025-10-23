@@ -7,10 +7,10 @@ echo -e "#######################################################################
 
 #---------------------------------------------------------
 # Definir rutas de directorios de entrada y salida
-dirfa="/home/admcenasa/Analisis_corridas/SPAdes/virus"
-dirfq="/home/admcenasa/Analisis_corridas/Archivos_postrim/virus/bowtie_filter"
-dirfqstats="/home/admcenasa/Analisis_corridas/fastQC/virus/estadisticos"
-dirfqptstats="/home/admcenasa/Analisis_corridas/fastQC_ptrim/virus/estadisticos"
+dirfa="/home/user/Analisis_corridas/SPAdes/virus"
+dirfq="/home/user/Analisis_corridas/Archivos_postrim/virus/bowtie_filter"
+dirfqstats="/home/user/Analisis_corridas/fastQC/virus/estadisticos"
+dirfqptstats="/home/user/Analisis_corridas/fastQC_ptrim/virus/estadisticos"
 #---------------------------------------------------------
 
 cd ${dirfa}
@@ -28,11 +28,6 @@ bwa index -p $(basename ${ensamble_name} .fa) ${ensamble}
 # ---------------------------------------------
 # Declarar cuales son tus archivos de lecturas
 # ---------------------------------------------
-
-#for R1 in /home/Analisis_corridas/Archivos_postrim/virus/*_R1_*; do
-#name_R1="$(basename ${R1} | cut -d '_' -f '1')"
-#R2="${R1/_R1_/_R2_}"
-#name_R2="$(basename ${R2} | cut -d '_' -f '1')"
 
 #Lecturas filtradas
 for R1 in ${dirfq}/*_R1_*; do
@@ -169,9 +164,9 @@ paste ${dirfqstats}/lecturas_stats.tsv ${dirfqptstats}/lecturas_stats_pt.tsv ./e
       | awk '{print $1"\t"$2"\t"$3"\t"$4"\t"$5"\t"$6"\t"$7"\t"$8"\t"$9"\t"$11"\t"$12"\t"$13"\t"$14"\t"$15"\t"$16"\t"$17"\t"$18"\t"$20"\t"$21"\t"$22"\t"$23"\t"$24"\t"$25"\t"$26"\t"$27"\t"$28}' > ./estadisticos/Estadistico_global.tsv
 
 rm ./estadisticos/Estadisticos_totales.tsv
-#rm ./*coverage*
-#rm ./*depth*
-#rm ./*stats*
+rm ./*coverage*
+rm ./*depth*
+rm ./*stats*
 
 echo -e "#############################################################################" "\n"
 echo    ===== Evaluación de estadisticos de ensamble terminada: $(date) ===== "\n"
