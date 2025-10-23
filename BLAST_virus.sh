@@ -11,7 +11,16 @@ echo -e "#######################################################################
 #Crear la base de datos de BLASTn: makeblastdb -in archivo.fa -dbtype nucl -out ./virus_db
 #La base de datos de virus se puede descargar en: https://www.ncbi.nlm.nih.gov/labs/virus/vssi/#/virus?SeqType_s=Nucleotide&VirusLineage_ss=Influenza%20A%20virus,%20taxid:11320&HostLineage_ss=NOT%20Homo%20sapiens%20(human),%20taxid:HostId_i:*%20NOT%20HostId_i:9606
 
-cd /home/admcenasa/Analisis_corridas/SPAdes/virus
+#---------------------------------------------------------
+# Definir rutas de directorios de entrada y salida
+dirfa="/home/admcenasa/Analisis_corridas/SPAdes/virus"
+dirout="/home/admcenasa/Analisis_corridas/SPAdes/virus/BLASTn_results"
+dirblas="/home/admcenasa/Analisis_corridas/SPAdes/virus/BLAST_assembly"
+dirkmer="/home/admcenasa/Analisis_corridas/kmerfinder/virus"
+diroutens="/home/admcenasa/Analisis_corridas/Resultados_all_virus/Ensambles"
+#---------------------------------------------------------
+
+cd ${dirfa}
 
 db="virus_db"
 
@@ -24,7 +33,9 @@ for ensamble in *.fa; do
 # Ejecutar BLASTn sobre los ensambles para identificar los contigs de virus
 # -------------------------------------------------------------------------
 
-blastn -query ${ensamble} -db $Bn_DB_PATH/${db} -outfmt "6 qseqid salltitles sstrand pident qcovs bitscore evalue" -max_target_seqs 1 -max_hsps 1 -culling_limit 1 -perc_identity 90 -evalue 1e-10 -out /home/admcenasa/Analisis_corridas/SPAdes/virus/BLASTn_results/${ID}_results.tsv
+blastn -query ${ensamble} -db $Bn_DB_PATH/${db} -outfmt "6 qseqid salltitles sstrand pident qcovs bitscore evalue" \
+       -max_target_seqs 1 -max_hsps 1 -culling_limit 1 -perc_identity 80 -evalue 1e-10 \
+       -out ${dirout}/${ID}_results.tsv
 
 #Para conocer el % de identidad: -outfmt "6 pident"
 #ID de secuencia de consulta: -outfmt "6 qseqid"
@@ -66,10 +77,10 @@ done
 # Invertir secuencias en minus a su complemento inverso
 # -----------------------------------------------------
 
-for BLAST in /home/admcenasa/Analisis_corridas/SPAdes/virus/BLASTn_results/*tsv; do
+for BLAST in ${dirout}/*tsv; do
     ID=$(basename ${BLAST} | cut -d '_' -f '1')
 
-for assembly in /home/admcenasa/Analisis_corridas/SPAdes/virus/*fa; do
+for assembly in ${dirfa}/*fa; do
     IDa=$(basename ${assembly} | cut -d '-' -f '1')
 
 
@@ -92,7 +103,7 @@ done
 rm *_metaSPAdes_plus.fa
 rm *_SPAdes_plus_contigs.fa
 rm ./BLAST_assembly/*_plus_contigs* ./BLAST_assembly/*_minus_contigs.txt
-rm /home/admcenasa/Analisis_corridas/SPAdes/virus/BLASTn_results/*_BLASTn_results.tsv #Eliminar los primeros resulstados de BLASTn
+rm ${dirout}/*_BLASTn_results.tsv #Eliminar los primeros resulstados de BLASTn
 #find /home/admcenasa/Analisis_corridas/SPAdes/virus/BLAST_assembly -type f -size 0 -exec rm -f {} \;
 
 # ----------------------------------------------
@@ -101,10 +112,12 @@ rm /home/admcenasa/Analisis_corridas/SPAdes/virus/BLASTn_results/*_BLASTn_result
 
 echo -e "db = ${db}"
 
-for ens in /home/admcenasa/Analisis_corridas/SPAdes/virus/BLAST_assembly/*fasta; do
+for ens in ${dirblas}/*fasta; do
     ID=$(basename ${ens} | cut -d '-' -f '1')
 
-blastn -query ${ens} -db $Bn_DB_PATH/${db} -outfmt "6 qseqid salltitles sstrand pident qcovs bitscore evalue" -max_target_seqs 1 -max_hsps 1 -culling_limit 1 -perc_identity 90 -evalue 1e-10 -out /home/admcenasa/Analisis_corridas/SPAdes/virus/BLAST_assembly/${ID}_results.tsv
+blastn -query ${ens} -db $Bn_DB_PATH/${db} -outfmt "6 qseqid salltitles sstrand pident qcovs bitscore evalue" \
+       -max_target_seqs 1 -max_hsps 1 -culling_limit 1 -perc_identity 80 -evalue 1e-10 \
+       -out ${dirblas}/${ID}_results.tsv
 
 # --------------------------------
 # Modificar los archivos de salida
@@ -150,9 +163,9 @@ rm ./BLAST_assembly/*_BLASTn_results.tsv
 # -----------------------------------------------------------------------------
 # Eliminar contigs pequeños para todos los generos virales menos para influenza
 # -----------------------------------------------------------------------------
-cd /home/admcenasa/Analisis_corridas/SPAdes/virus/BLAST_assembly
+cd ${dirblas}
 
-for file in /home/admcenasa/Analisis_corridas/kmerfinder/virus/*spa; do
+for file in ${dirkmer}/*spa; do
     genero=$(cat ${file} | sed -n '2p' | cut -d ' ' -f '2,3,4' | cut -d ',' -f '1'| tr ' ' '_')
     ID=$(basename ${file} | cut -d '_' -f '1')
 echo -e "${genero}"
@@ -185,28 +198,28 @@ chmod -R 775 *-metaSPAdes-assembly-plus.fa
 # Mover los ensambles a una carpeta nombrada con el genero del organismo identificado
 # ------------------------------------------------------------------------------------
 
-cd /home/admcenasa/Analisis_corridas/kmerfinder/virus
+cd ${dirkmer}
 
 for file in *spa; do
     genero=$(cat ${file} | sed -n '2p' | cut -d ' ' -f '2,3,4' | cut -d ',' -f '1'| tr ' ' '_')
     ID=$(basename ${file} | cut -d '_' -f '1')
 
-for assembly in /home/admcenasa/Analisis_corridas/SPAdes/virus/BLAST_assembly/*.fa; do
+for assembly in ${dirblas}/*.fa; do
     assembly_ID=$(basename ${assembly} | cut -d '-' -f '1')
 
 if [[ ${ID} != ${assembly_ID} ]]; then
        continue
  else
-mkdir -p /home/admcenasa/Analisis_corridas/Resultados_all_virus/Ensambles/${genero}
+mkdir -p ${diroutens}/${genero}
 
 echo -e "Moviendo ${assembly} a ${genero}"
-     mv ${assembly} /home/admcenasa/Analisis_corridas/Resultados_all_virus/Ensambles/${genero}
+     mv ${assembly} ${diroutens}/${genero}
 
        fi
     done
 done
 
-rm /home/admcenasa/Analisis_corridas/kmerfinder/virus/*spa
+rm ${dirkmer}/*spa
 
 echo -e "############################################" "\n"
 echo -e   "\t" ===== Fin: $(date) =====  "\n"
