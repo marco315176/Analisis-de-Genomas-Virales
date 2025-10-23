@@ -13,16 +13,15 @@ echo -e "#######################################################################
 
 #---------------------------------------------------------
 # Definir rutas de directorios de entrada y salida
-dirfa="/home/admcenasa/Analisis_corridas/SPAdes/virus"
-dirout="/home/admcenasa/Analisis_corridas/SPAdes/virus/BLASTn_results"
-dirblas="/home/admcenasa/Analisis_corridas/SPAdes/virus/BLAST_assembly"
-dirkmer="/home/admcenasa/Analisis_corridas/kmerfinder/virus"
-diroutens="/home/admcenasa/Analisis_corridas/Resultados_all_virus/Ensambles"
+dirfa="/home/user/Analisis_corridas/SPAdes/virus"
+dirout="/home/user/Analisis_corridas/SPAdes/virus/BLASTn_results"
+dirblas="/home/user/Analisis_corridas/SPAdes/virus/BLAST_assembly"
+dirkmer="/home/user/Analisis_corridas/kmerfinder/virus"
+diroutens="/home/user/Analisis_corridas/Resultados_all_virus/Ensambles"
+db="virus_db"
 #---------------------------------------------------------
 
 cd ${dirfa}
-
-db="virus_db"
 
 echo -e "db = ${db}"
 
@@ -104,7 +103,7 @@ rm *_metaSPAdes_plus.fa
 rm *_SPAdes_plus_contigs.fa
 rm ./BLAST_assembly/*_plus_contigs* ./BLAST_assembly/*_minus_contigs.txt
 rm ${dirout}/*_BLASTn_results.tsv #Eliminar los primeros resulstados de BLASTn
-#find /home/admcenasa/Analisis_corridas/SPAdes/virus/BLAST_assembly -type f -size 0 -exec rm -f {} \;
+#find /home/user/Analisis_corridas/SPAdes/virus/BLAST_assembly -type f -size 0 -exec rm -f {} \;
 
 # ----------------------------------------------
 # Correr BLASTn para confirmar las orientaciones
