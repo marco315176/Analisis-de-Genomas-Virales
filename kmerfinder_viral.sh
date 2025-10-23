@@ -10,10 +10,10 @@ echo -e "#######################################################################
 
 #---------------------------------------------------------
 # Definir rutas de directorios de entrada y salida
-dirfa="/home/admcenasa/Analisis_corridas/SPAdes/virus"
-dirout="/home/admcenasa/Analisis_corridas/kmerfinder/virus"
-dirfqfilt="/home/admcenasa/Analisis_corridas/Archivos_postrim/virus/bowtie_filter"
-diroutfq="/home/admcenasa/Analisis_corridas/Resultados_all_virus/Archivos_trimming"
+dirfa="/home/user/Analisis_corridas/SPAdes/virus"
+dirout="/home/user/Analisis_corridas/kmerfinder/virus"
+dirfqfilt="/home/user/Analisis_corridas/Archivos_postrim/virus/bowtie_filter"
+diroutfq="/home/user/Analisis_corridas/Resultados_all_virus/Archivos_trimming"
 #---------------------------------------------------------
 
 cd ${dirfa}
