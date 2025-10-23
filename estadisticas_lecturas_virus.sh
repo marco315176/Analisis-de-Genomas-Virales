@@ -7,13 +7,13 @@ echo -e "#######################################################################
 
 #---------------------------------------------------------
 # Definir rutas de directorios de entrada y salida
-dirfq="/home/admcenasa/Analisis_corridas/Corrida_virus"
-dirfqout="/home/admcenasa/Analisis_corridas/fastQC/virus"
-Trimmomatic="java -jar /home/admcenasa/Programas_bioinformaticos/Trimmomatic-0.40/trimmomatic-0.40.jar"
-TruSeq2PE="/home/admcenasa/Programas_bioinformaticos/Trimmomatic-0.40/adapters/TruSeq2-PE.fa"
-dir="/home/admcenasa/Analisis_corridas/Archivos_postrim/virus"
-U1U2="/home/admcenasa/Analisis_corridas/Archivos_postrim/virus/U1U2"
-dirfqpt="/home/admcenasa/Analisis_corridas/fastQC_ptrim/virus"
+dirfq="/home/user/Analisis_corridas/Corrida_virus"
+dirfqout="/home/user/Analisis_corridas/fastQC/virus"
+Trimmomatic="java -jar /home/user/Programas_bioinformaticos/Trimmomatic-0.40/trimmomatic-0.40.jar"
+TruSeq2PE="/home/user/Programas_bioinformaticos/Trimmomatic-0.40/adapters/TruSeq2-PE.fa"
+dir="/home/user/Analisis_corridas/Archivos_postrim/virus"
+U1U2="/home/user/Analisis_corridas/Archivos_postrim/virus/U1U2"
+dirfqpt="/home/user/Analisis_corridas/fastQC_ptrim/virus"
 #---------------------------------------------------------
 
 cd ${dirfq}
