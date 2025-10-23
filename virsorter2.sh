@@ -7,13 +7,13 @@ echo -e "#######################################################################
 
 conda activate virsorter_env
 
-cd /home/secuenciacion_cenasa/Analisis_corridas/SPAdes_viral
+cd /home/user/Analisis_corridas/SPAdes_viral
 
 for ensamble in *.fa; do
 ID="$(basename ${ensamble} | cut -d '-' -f '1')"
 
 
-virsorter run -w /home/secuenciacion_cenasa/Analisis_corridas/SPAdes_viral/Contigs_filtrados/${ID}_virsorter_out \
+virsorter run -w /home/user/Analisis_corridas/SPAdes_viral/Contigs_filtrados/${ID}_virsorter_out \
               -d $VIRSORTER2_DB_PATH \
               -i ${ensamble} \
               --min-score 0.05 \
@@ -21,9 +21,9 @@ virsorter run -w /home/secuenciacion_cenasa/Analisis_corridas/SPAdes_viral/Conti
               --keep-original-seq \
               --include-groups  RNA,NCLDV,ssDNA,lavidaviridae all
 
-mv /home/secuenciacion_cenasa/Analisis_corridas/SPAdes_viral/Contigs_filtrados/${ID}_virsorter_out/final-viral-combined.fa /home/secuenciacion_cenasa/Analisis_corridas/SPAdes_viral/Contigs_filtrados/${ID}_virsorter_out/${ID}-metaSPAdes-viral.fa
-mv /home/secuenciacion_cenasa/Analisis_corridas/SPAdes_viral/Contigs_filtrados/${ID}_virsorter_out/${ID}-metaSPAdes-viral.fa /home/secuenciacion_cenasa/Analisis_corridas/SPAdes_viral/Contigs_filtrados/.
-rm -R /home/secuenciacion_cenasa/Analisis_corridas/SPAdes_viral/Contigs_filtrados/${ID}_virsorter_out
+mv /home/user/Analisis_corridas/SPAdes_viral/Contigs_filtrados/${ID}_virsorter_out/final-viral-combined.fa /home/user/Analisis_corridas/SPAdes_viral/Contigs_filtrados/${ID}_virsorter_out/${ID}-metaSPAdes-viral.fa
+mv /home/user/Analisis_corridas/SPAdes_viral/Contigs_filtrados/${ID}_virsorter_out/${ID}-metaSPAdes-viral.fa /home/user/Analisis_corridas/SPAdes_viral/Contigs_filtrados/.
+rm -R /home/user/Analisis_corridas/SPAdes_viral/Contigs_filtrados/${ID}_virsorter_out
 
 done
 
