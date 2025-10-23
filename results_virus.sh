@@ -7,17 +7,17 @@ echo -e "#######################################################################
 
 #-------------------------------------------------------------------
 # Definir rutas de directorios de entrada y salida
-dirout="/home/admcenasa/Analisis_corridas/Resultados_all_virus"
-dirfq="/home/admcenasa/Analisis_corridas/fastQC/virus"
-dirfqpt="/home/admcenasa/Analisis_corridas/fastQC_ptrim/virus"
-dirmqc="/home/admcenasa/Analisis_corridas/fastQC/virus/multiqc"
-dirmqcpt="/home/admcenasa/Analisis_corridas/fastQC_ptrim/virus/multiqc"
-dirk2="/home/admcenasa/Analisis_corridas/kraken2/virus"
+dirout="/home/user/Analisis_corridas/Resultados_all_virus"
+dirfq="/home/user/Analisis_corridas/fastQC/virus"
+dirfqpt="/home/user/Analisis_corridas/fastQC_ptrim/virus"
+dirmqc="/home/user/Analisis_corridas/fastQC/virus/multiqc"
+dirmqcpt="/home/user/Analisis_corridas/fastQC_ptrim/virus/multiqc"
+dirk2="/home/user/Analisis_corridas/kraken2/virus"
 #dirbk=""
-dirkf="/home/admcenasa/Analisis_corridas/kmerfinder/virus"
-direns="/home/admcenasa/Analisis_corridas/SPAdes/virus"
-dirlc="/home/admcenasa/Analisis_corridas/Corrida_virus"
-dirpt="/home/admcenasa/Analisis_corridas/Archivos_postrim/virus"
+dirkf="/home/user/Analisis_corridas/kmerfinder/virus"
+direns="/home/user/Analisis_corridas/SPAdes/virus"
+dirlc="/home/user/Analisis_corridas/Corrida_virus"
+dirpt="/home/user/Analisis_corridas/Archivos_postrim/virus"
 #--------------------------------------------------------------------
 
 mkdir -p ${dirout}
